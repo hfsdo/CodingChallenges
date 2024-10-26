@@ -1,15 +1,16 @@
 import tkinter as tk
+import random
 
 def resetGame():
     for widget in window.winfo_children():
         widget.destroy()
-    button10 = tk.Button(master=window, text="Beginner", command= lambda: createBoard(8, 8))
+    button10 = tk.Button(master=window, text="Beginner", command= lambda: createBoard(8, 8, 10))
     button10.pack()
 
-    button16 = tk.Button(master=window, text="Intermediate", command= lambda: createBoard(16, 16))
+    button16 = tk.Button(master=window, text="Intermediate", command= lambda: createBoard(16, 16, 40))
     button16.pack()
 
-    button16 = tk.Button(master=window, text="Hard", command= lambda: createBoard(16, 30))
+    button16 = tk.Button(master=window, text="Hard", command= lambda: createBoard(16, 30, 99))
     button16.pack()
     
 def click(frame, button):
@@ -17,10 +18,30 @@ def click(frame, button):
     x=info["row"]-1
     y=info["column"]
     print(f"({x}, {y})")
-    button.config(relief=tk.SUNKEN)
+    button.config(relief=tk.SUNKEN, text=grid[x][y])
     
+def createGrid(x, y, mines):
+    global grid
+    grid = []
+    for i in range(x):
+        row = []
+        for j in range(y):
+            field = ""#f"{i},{j}"
+            row.append(field)
+        grid.append(row)
+    curmines = 0
+    while curmines < mines:
+        i = random.randint(0,x-1)
+        j = random.randint(0,y-1)
+        print(f"{i},{j}")
+        if grid[i][j] == "":
+            grid[i][j] = "*"
+            curmines+=1
 
-def createBoard(x, y):
+
+
+def createBoard(x, y, mines):
+    createGrid(x,y,mines)
     for widget in window.winfo_children():
         widget.destroy()
 
